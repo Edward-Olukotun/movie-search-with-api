@@ -12,7 +12,7 @@ function App() {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    setFinalEndPoint(finalEndPoint);
+    setFinalEndPoint(endPoint);
   };
 
   useEffect(() => {
@@ -44,7 +44,7 @@ function App() {
     };
 
     fetch(
-      `https://online-movie-database.p.rapidapi.com/auto-complete?q=+${endPoint}`,
+      `https://online-movie-database.p.rapidapi.com/auto-complete?q=+${finalEndPoint}`,
       options
     )
       .then((response) => {
@@ -56,7 +56,7 @@ function App() {
       .catch((err) => {
         console.error(err);
       });
-  }, [endPoint]);
+  }, [finalEndPoint]);
 
   console.log({ container });
 
@@ -82,17 +82,19 @@ function App() {
           <div className="grid md:grid-cols-4 grid-cols-2 gap-3 md:gap-5">
             {container?.map((items, index) => (
               <div className="boder rounded-md  flex flex-col  " key={index}>
-                <div className=" w-30 h-30 md:w-60 md:h-60 ">
-                  <img
-                    className="object-cover w-30 h-30 md:w-60 md:h-60 px-2 md:px-8 "
+                <div >
+                  {items.i ? <img
+                    className="object-cover  "
                     src={items.i.imageUrl}
                     alt="/"
-                  />
+                  /> : null}
                 </div>
-                <div className="my-3 flex flex-col px-2 md:px-8 font-extrabold text-xl w-30  md:w-60 ">
-                  <p className="w-auto h-auto mx-1 my-1">{items.l}</p>
-                  <p className="w-auto h-auto mx-1 my-1">Year:{items.y}</p>
-                  <p className="w-auto h-auto mx-1 my-1">Staring:{items.s}</p>
+                <div className="my-3 grid grid-cols-2 gap-2 md:grid-cols-4 font-extrabold text-xl ">
+                  <div className="flex flex-col text-center   w-[150px] md:w-[220px]">
+                    {items.l ? <p className="w-full text-center  my-1">{items.l}</p> : null}
+                    {items.y ? <p className="w-full text-center  my-1">Year:{items.y}</p> : null}
+                    {items.s ? <p className="w-full text-center  my-1">Staring:{items.s}</p> : null}
+                  </div>
                 </div>
               </div>
             ))}
